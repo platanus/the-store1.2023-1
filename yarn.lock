@@ -8021,6 +8021,11 @@ vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
     lodash "^4.17.21"
     semver "^7.3.6"
 
+vue-inline-svg@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/vue-inline-svg/-/vue-inline-svg-2.1.1.tgz#254485bf79a45d148d357a6990b8914219699e36"
+  integrity sha512-1m3UdbEneSHH4BTa2Bju/jnFy4QIHdhIWtGvkrkQRY03lJaM4JJ+hZBrgZw1jIB54SUh+5NYUiFEelnMz+DHQw==
+
 vue-loader@^16.8.3:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.8.3.tgz#d43e675def5ba9345d6c7f05914c13d861997087"
