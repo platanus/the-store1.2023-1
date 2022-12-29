@@ -15,6 +15,7 @@ defineProps<Props>();
       :key="purchase.id"
       :item-name="purchase.item.name"
       :status="purchase.status"
+      :delivery-date="purchase.deliveryDate"
     />
   </div>
 </template>
