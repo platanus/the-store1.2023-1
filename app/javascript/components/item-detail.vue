@@ -2,13 +2,11 @@
 import { ref } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import purchasesApi from '../api/purchases';
+import type { Item } from '../api/items';
 import currency from '../filters/currency.js';
 
 type Props = {
-  itemId: number
-  name: string
-  price: number
-  imageUrl: string
+  item: Item
 };
 const props = defineProps<Props>();
 
@@ -17,7 +15,7 @@ const { notify } = useNotification();
 async function buy() {
   loading.value = true;
   try {
-    await purchasesApi.create(props.itemId);
+    await purchasesApi.create(props.item.id);
     notify({ text: 'Genial, recibimos tu orden! Te contactaremos para coordinar', type: 'success' });
   } catch (error) {
     notify({ text: 'Ups, ocurrió un error! Inténtalo de nuevo', type: 'error' });
@@ -25,38 +23,34 @@ async function buy() {
     loading.value = false;
   }
 }
-</script>
 
+</script>
 <template>
-  <div class="flex w-80 flex-col items-center gap-4 overflow-hidden rounded-lg bg-white shadow-md">
+  <div class="flex w-full flex-row content-start gap-10">
     <img
-      :src="imageUrl"
+      :src="item.image['sm']['url']"
       alt="Product image"
       class="w-full"
     >
-    <div class="flex flex-col gap-2 text-center text-zinc-800">
-      <span class="text-xl font-bold">
-        {{ currency(price) }}
+    <div class="flex flex-col content-start justify-between">
+      <div class="flex flex-col content-start gap-4 text-zinc-800">
+        <span class="text-lg">
+          {{ item.name }}
+        </span>
+        <span class="text-3xl">
+          {{ currency(item.price) }}
+        </span>
+      </div>
+      <span class="text-base text-zinc-800">
+        {{ item.description }}
       </span>
-      <span>
-        {{ name }}
-      </span>
-    </div>
-    <div class="flex w-full flex-row text-center text-blue-800">
-      <button
-        class="w-1/2 py-4 disabled:text-zinc-500"
+      <base-button
+        :variant="loading ? 'disabled' : 'primary'"
         :disabled="loading"
         @click="buy"
       >
         Comprar
-      </button>
-      <a
-        :href="loading ? '/' : `/items/${itemId}`"
-        class="w-1/2 py-4"
-        :class="{ 'text-zinc-500': loading }"
-      >
-        Detalles
-      </a>
+      </base-button>
     </div>
   </div>
 </template>

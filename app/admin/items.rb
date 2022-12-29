@@ -1,5 +1,5 @@
 ActiveAdmin.register Item do
-  permit_params :name, :price, :image
+  permit_params :name, :description, :price, :image
 
   index do
     selectable_column
@@ -13,6 +13,7 @@ ActiveAdmin.register Item do
   form do |f|
     f.inputs do
       f.input :name
+      f.input :description
       f.input :price
       f.input :image, as: :file
     end
