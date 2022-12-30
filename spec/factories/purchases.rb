@@ -2,6 +2,10 @@ FactoryBot.define do
   factory :purchase do
     user
     item
-    delivery_company
+  end
+
+  trait :with_delivery_company do
+    delivery_date { Time.zone.today }
+    delivery_company { create(:delivery_company) }
   end
 end

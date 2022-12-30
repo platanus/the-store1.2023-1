@@ -6,6 +6,10 @@ class Purchase < ApplicationRecord
   enum status: { pending: 0, delivered: 1 }
 
   delegate :name, to: :item, prefix: true
+  validates :delivery_date, presence: true, if: :delivery_company_id
+  validates :delivery_company, presence: true, if: :delivery_date
+  # if status is delivered, validate that there is a delivery_date and a delivery_company
+  # validate that if there is a delivery_date, it is in the future
 end
 
 # == Schema Information
