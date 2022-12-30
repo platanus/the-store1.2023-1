@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.fdescribe Purchase, type: :model do
+RSpec.describe Purchase, type: :model do
   context 'with valid attributes' do
     it { expect(build(:purchase)).to be_valid }
     it { expect(build(:purchase, :with_delivery_company)).to be_valid }
@@ -17,29 +17,47 @@ RSpec.fdescribe Purchase, type: :model do
   end
 
   describe 'validations' do
-    it { expect(build(:purchase)).not_to validate_presence_of(:delivery_date) }
-    it { expect(build(:purchase)).not_to validate_presence_of(:delivery_company) }
+    let(:delivery_company) { nil }
+    let(:delivery_date) { nil }
+    let(:status) { :pending }
+
+    let(:purchase) do
+      build(
+        :purchase,
+        delivery_company: delivery_company,
+        delivery_date: delivery_date,
+        status: status
+      )
+    end
+
+    it { expect(purchase).not_to validate_presence_of(:delivery_date) }
+    it { expect(purchase).not_to validate_presence_of(:delivery_company) }
 
     context 'with delivery company' do
-      it do
-        expect(build(:purchase, :with_delivery_company)).to validate_presence_of(:delivery_date)
+      let(:delivery_company) { create(:delivery_company) }
+
+      it { expect(purchase).to validate_presence_of(:delivery_date) }
+      it { expect(purchase).not_to validate_presence_of(:delivery_company) }
+
+      context "with delivery date in the past" do
+        let(:delivery_date) { 1.day.ago }
+
+        it { expect(purchase).not_to be_valid }
+        it { expect(purchase).to validate_presence_of(:delivery_company) }
       end
 
-      it do
-        expect(
-          build(:purchase, :with_delivery_company)
-        ).to validate_presence_of(:delivery_company)
+      context "with delivery date in the future" do
+        let(:delivery_date) { 1.day.from_now }
+
+        it { expect(purchase).to be_valid }
       end
     end
 
     context 'with delivered status' do
-      it do
-        expect(build(:purchase, :delivered)).to validate_presence_of(:delivery_date)
-      end
+      let(:status) { :delivered }
 
-      it do
-        expect(build(:purchase, :delivered)).to validate_presence_of(:delivery_company)
-      end
+      it { expect(purchase).to validate_presence_of(:delivery_date) }
+      it { expect(purchase).to validate_presence_of(:delivery_company) }
     end
   end
 end
