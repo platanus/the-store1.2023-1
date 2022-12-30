@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_15_145239) do
+ActiveRecord::Schema.define(version: 2022_12_27_145655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,11 @@ ActiveRecord::Schema.define(version: 2022_12_15_145239) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  create_table "delivery_companies", force: :cascade do |t|
+    t.string "name"
+    t.string "phone_number", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "items", force: :cascade do |t|
@@ -59,6 +63,9 @@ ActiveRecord::Schema.define(version: 2022_12_15_145239) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0, null: false
+    t.bigint "delivery_company_id"
+    t.date "delivery_date"
+    t.index ["delivery_company_id"], name: "index_purchases_on_delivery_company_id"
     t.index ["item_id"], name: "index_purchases_on_item_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
@@ -75,6 +82,7 @@ ActiveRecord::Schema.define(version: 2022_12_15_145239) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "purchases", "delivery_companies"
   add_foreign_key "purchases", "items"
   add_foreign_key "purchases", "users"
 end
