@@ -17,6 +17,9 @@ RSpec.fdescribe Purchase, type: :model do
   end
 
   describe 'validations' do
+    it { expect(build(:purchase)).not_to validate_presence_of(:delivery_date) }
+    it { expect(build(:purchase)).not_to validate_presence_of(:delivery_company) }
+
     context 'with delivery company' do
       it do
         expect(build(:purchase, :with_delivery_company)).to validate_presence_of(:delivery_date)
@@ -29,9 +32,14 @@ RSpec.fdescribe Purchase, type: :model do
       end
     end
 
-    context 'without delivery company' do
-      it { expect(build(:purchase)).not_to validate_presence_of(:delivery_date) }
-      it { expect(build(:purchase)).not_to validate_presence_of(:delivery_company) }
+    context 'with delivered status' do
+      it do
+        expect(build(:purchase, :delivered)).to validate_presence_of(:delivery_date)
+      end
+
+      it do
+        expect(build(:purchase, :delivered)).to validate_presence_of(:delivery_company)
+      end
     end
   end
 end
