@@ -6,6 +6,20 @@ class Purchase < ApplicationRecord
   enum status: { pending: 0, delivered: 1 }
 
   delegate :name, to: :item, prefix: true
+  validates :delivery_date, :delivery_company, presence: true, if: :delivered?
+
+  validates :delivery_date, presence: true, if: :delivery_company
+  validates :delivery_company, presence: true, if: :delivery_date
+
+  validate :delivery_date_cannot_be_in_the_past, if: :delivery_date
+
+  def delivery_date_in_the_past?
+    delivery_date < Time.zone.today
+  end
+
+  def delivery_date_cannot_be_in_the_past
+    errors.add(:delivery_date, :invalid) if delivery_date_in_the_past? && !delivered?
+  end
 end
 
 # == Schema Information
