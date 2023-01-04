@@ -7,5 +7,12 @@ RSpec.describe User, type: :model do
 
   describe 'associations' do
     it { is_expected.to have_many(:purchases) }
+    it { is_expected.to have_many(:reviews) }
+  end
+
+  describe 'display_name' do
+    let(:user) { build(:user) }
+
+    it { expect(user.display_name).to eq(user.email) }
   end
 end

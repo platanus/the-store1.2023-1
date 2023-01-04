@@ -5,6 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :purchases, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+
+  def display_name
+    email
+  end
 end
 
 # == Schema Information
