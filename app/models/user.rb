@@ -5,6 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :purchases, dependent: :destroy
+
+
+
+
+  def some_method_that_should_be_tested
+    42 + 42
+  end
 end
 
 # == Schema Information
