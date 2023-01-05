@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import purchasesApi from '../api/purchases';
 import type { Item } from '../api/items';
-import currency from '../filters/currency.js';
+import currency from '../utils/currency.js';
 
 type Props = {
   item: Item
