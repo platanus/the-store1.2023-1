@@ -1,6 +1,8 @@
 class Item < ApplicationRecord
   include ImageUploader::Attachment(:image)
 
+  has_many :reviews, dependent: :destroy
+
   validates :name, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
 end
