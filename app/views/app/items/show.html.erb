@@ -6,6 +6,10 @@
     <%= image_tag("back-arrow.svg") %>
     Volver
   </a>
-  <item-detail :item="<%= serialize_resource(@item) %>">
-  </item-detail>
+  <item-show-detail :item="<%= serialize_resource(@item) %>">
+  </item-show-detail>
+  <item-show-review
+    :reviews="<%= serialize_resource(@reviews) %>"
+  >
+  </item-show-review>
 </div>

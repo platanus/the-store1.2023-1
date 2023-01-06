@@ -8,7 +8,8 @@ import BaseButton from './components/base-button.vue';
 import BaseCheckbox from './components/base-checkbox.vue';
 import UserSession from './components/user-session.vue';
 import ItemList from './components/item-list.vue';
-import ItemDetail from './components/item-detail.vue';
+import ItemShowDetail from './components/item-show-detail.vue';
+import ItemShowReview from './components/item-show-review.vue';
 import PurchaseList from './components/purchase-list.vue';
 import './css/application.css';
 
@@ -18,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
       TheHeader,
       UserSession,
       ItemList,
-      ItemDetail,
+      ItemShowDetail,
+      ItemShowReview,
       PurchaseList,
       BaseNotifications,
     },

@@ -15,6 +15,7 @@
     "@types/node": "^18.11.9",
     "@types/rails__ujs": "^6.0.1",
     "@types/tailwindcss": "^3.1.0",
+    "@vueuse/core": "^9.10.0",
     "activeadmin_addons": "^1.0.0",
     "arctic_admin": "^4.0.2",
     "autoprefixer": "^10",

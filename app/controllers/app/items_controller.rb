@@ -5,12 +5,17 @@ class App::ItemsController < App::BaseController
 
   def show
     item
+    reviews
   end
 
   private
 
   def item
     @item ||= Item.find(item_params[:id])
+  end
+
+  def reviews
+    @reviews ||= item.reviews.includes([:user])
   end
 
   def item_params
