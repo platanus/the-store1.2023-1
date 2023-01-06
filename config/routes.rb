@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :internal do
       resources :purchases, only: [:index, :create, :show]
       resources :items, only: [:index, :show]
+      resources :reviews, only: [:create]
     end
   end
   devise_for :users
