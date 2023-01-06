@@ -34,7 +34,7 @@ export default {
   >
     <span class="font-normal text-zinc-800">{{ label }}</span>
     <input
-      class="rounded border-zinc-300 bg-white focus:ring-blue-800"
+      class="rounded border border-zinc-300 bg-white py-2 px-3 focus:ring-blue-800"
       v-bind="attrsWithoutClasses"
       @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     >
