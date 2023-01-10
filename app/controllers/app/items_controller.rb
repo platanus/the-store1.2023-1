@@ -6,6 +6,8 @@ class App::ItemsController < App::BaseController
   def show
     item
     reviews
+    bought?
+    reviewed?
   end
 
   private
@@ -16,6 +18,14 @@ class App::ItemsController < App::BaseController
 
   def reviews
     @reviews ||= item.reviews.order(created_at: :desc).includes([:user])
+  end
+
+  def bought?
+    @bought ||= current_user.purchases.find_by(item_id: item.id) ? 1 : 0
+  end
+
+  def reviewed?
+    @reviewed ||= reviews.find_by(user_id: current_user.id) ? 1 : 0
   end
 
   def item_params
