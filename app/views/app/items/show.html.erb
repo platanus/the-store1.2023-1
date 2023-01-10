@@ -11,6 +11,8 @@
   <item-show-review
     :item="<%= serialize_resource(@item) %>"
     :reviews="<%= serialize_resource(@reviews) %>"
+    :bought="<%= @bought %>"
+    :reviewed="<%= @reviewed %>"
   >
   </item-show-review>
 </div>
