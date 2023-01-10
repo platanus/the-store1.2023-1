@@ -15,7 +15,7 @@ class App::ItemsController < App::BaseController
   end
 
   def reviews
-    @reviews ||= item.reviews.includes([:user])
+    @reviews ||= item.reviews.order(created_at: :desc).includes([:user])
   end
 
   def item_params
