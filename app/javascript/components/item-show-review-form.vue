@@ -61,8 +61,10 @@ async function writeReview() {
         Cancel
       </base-button>
       <base-button
+        :variant="!form.body ? 'disabled' : 'primary'"
         type="submit"
         class="w-full rounded-lg"
+        :disabled="!form.body"
       >
         Enviar
       </base-button>
