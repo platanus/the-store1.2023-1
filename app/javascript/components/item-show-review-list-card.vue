@@ -2,7 +2,7 @@
 import formatDate from 'utils/format-date';
 
 type Props = {
-  userEmail: string
+  userName: string
   body: string | null
   createdAt: string
 };
@@ -26,7 +26,7 @@ defineProps<Props>();
     >
       No dejó comentario
     </span>
-    <span class="text-base font-bold text-zinc-800"> {{ userEmail }} </span>
+    <span class="text-base font-bold text-zinc-800"> {{ userName }} </span>
     <div class="py-4 px-12">
       <hr class="border-t border-zinc-800">
     </div>
