@@ -9,6 +9,8 @@ import ItemShowReviewList from './item-show-review-list.vue';
 type Props = {
   item: Item
   reviews: Review[]
+  bought: number
+  reviewed: number
 };
 defineProps<Props>();
 
@@ -22,7 +24,7 @@ const showReviewForm = ref(false);
     </span>
     <div class="flex w-full gap-16">
       <item-show-review-write
-        v-if="!showReviewForm"
+        v-if="!showReviewForm && bought && !reviewed"
         :item="item"
         @open-review-form="showReviewForm = true"
       />

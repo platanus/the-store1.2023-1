@@ -13,7 +13,7 @@ defineProps<Props>();
     <item-show-review-list-card
       v-for="review in reviews"
       :key="review.id"
-      :user-email="review.user.email"
+      :user-name="review.user.name || review.user.email"
       :body="review.body"
       :created-at="review.createdAt"
     />
