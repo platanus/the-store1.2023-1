@@ -1,6 +1,8 @@
 class App::PurchasesController < App::BaseController
   def index
-    @purchases = current_user.purchases.order(created_at: :desc).includes(:item)
+    @purchases = current_user.purchases.order(created_at: :desc).includes(
+      [:item, :delivery_company]
+    )
   end
 
   def show

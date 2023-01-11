@@ -1,14 +1,16 @@
 import api from './index';
 import type { User } from './users';
 import type { Item } from './items';
+import type { DeliveryCompany } from './delivery_companies';
 
 export interface Purchase {
   id: number;
   status: 'pending' | 'delivered';
-  createdAt: string;
+  createdAt: Date;
   deliveryDate: Date;
   user: User;
   item: Item;
+  deliveryCompany: DeliveryCompany;
 }
 
 export default {
