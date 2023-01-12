@@ -25,4 +25,15 @@ export default {
       },
     });
   },
+  update(purchaseId: number, deliveryDate: string) {
+    const path = `/api/internal/purchases/${purchaseId}`;
+
+    return api({
+      method: 'patch',
+      url: path,
+      data: {
+        purchase: { deliveryDate },
+      },
+    });
+  },
 };

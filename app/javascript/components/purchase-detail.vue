@@ -1,22 +1,40 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { es } from 'date-fns/locale';
-import type { Purchase } from '../api/purchases';
+import { useNotification } from '@kyvg/vue3-notification';
+import { parse, format } from 'date-fns';
+import es from 'date-fns/locale/es';
+import purchasesApi, { type Purchase } from '../api/purchases';
 
 type Props = {
-  purchase: Purchase
+  basePurchase: Purchase
 };
-defineProps<Props>();
+const props = defineProps<Props>();
 const showReschedule = ref(false);
+const newDeliveryDate = ref('');
+const purchase = ref(props.basePurchase);
 
-function dateFormatter(date: Date, type = '/'): string {
-  if (type === '/') {
-    return format(new Date(date), 'dd/MM/yyyy', { locale: es });
+function dateFormatter(date: Date, type = 'dd/MM/yyyy'): string {
+  const formattedDate = format(new Date(date), type, { locale: es });
+  const uppercaseDate = (formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1));
+
+  return uppercaseDate;
+}
+
+const MONEY_DENOMINATOR = '$';
+const loading = ref(false);
+const { notify } = useNotification();
+async function sendReschedule() {
+  loading.value = true;
+  const newDate = parse(newDeliveryDate.value, 'dd/MM/yyyy', new Date());
+  try {
+    const request = await purchasesApi.update(props.basePurchase.id, String(newDate));
+    notify({ text: 'Has cambiado la fecha de entrega correctamente', type: 'success' });
+    purchase.value = request.data.purchase;
+  } catch (error) {
+    notify({ text: 'Ups, ocurrió un error! Inténtalo de nuevo', type: 'error' });
+  } finally {
+    loading.value = false;
   }
-  let dateStr = format(new Date(date), "EEEE d 'de' LLLL", { locale: es });
-  dateStr = (dateStr.charAt(0).toUpperCase() + dateStr.slice(1));
-
-  return dateStr;
 }
 
 </script>
@@ -38,7 +56,7 @@ function dateFormatter(date: Date, type = '/'): string {
       Tu compra
     </h2>
     <div class="flex">
-      <div class="">
+      <div>
         <img
           :src="purchase.item.image['sm']['url']"
           alt="Product image"
@@ -52,7 +70,7 @@ function dateFormatter(date: Date, type = '/'): string {
         </div>
         <div class="flex grow items-center">
           <p class="pl-8 text-xl">
-            Total: ${{ purchase.item.price }}
+            Total: {{ MONEY_DENOMINATOR }}{{ purchase.item.price }}
           </p>
         </div>
         <div class="flex grow items-center">
@@ -87,10 +105,10 @@ function dateFormatter(date: Date, type = '/'): string {
       Tu orden está <span class="font-bold">programada</span> para el:
     </p>
     <p class="pb-6 text-4xl font-medium">
-      {{ dateFormatter(purchase.deliveryDate, 'text') }}
+      {{ dateFormatter(purchase.deliveryDate, "EEEE d 'de' LLLL") }}
     </p>
     <div
-      v-show="!showReschedule"
+      v-if="!showReschedule"
       class="flex items-center"
     >
       <p class="pr-4 text-lg">
@@ -106,7 +124,7 @@ function dateFormatter(date: Date, type = '/'): string {
       </button>
     </div>
     <section
-      v-show="showReschedule"
+      v-else
       class="w-full bg-zinc-50"
     >
       <div class="flex flex-col items-center">
@@ -116,6 +134,7 @@ function dateFormatter(date: Date, type = '/'): string {
         <div class="flex flex-col">
           <div class="relative">
             <input
+              v-model="newDeliveryDate"
               type="text"
               class="mb-3 w-80 rounded-lg border border-zinc-300 shadow-sm placeholder:text-zinc-300"
               placeholder="12/12/2022"
@@ -134,10 +153,11 @@ function dateFormatter(date: Date, type = '/'): string {
                 Cancelar
               </p>
             </button>
-            <button class="grow rounded-lg bg-blue-800  text-lg">
-              <p class="mx-4 my-2 text-lg font-bold text-white">
-                Enviar
-              </p>
+            <button
+              class="grow rounded-lg bg-blue-800 px-4 py-2 text-lg font-bold text-white"
+              @click="sendReschedule"
+            >
+              Enviar
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ interface Props {
 defineProps<Props>();
 
 const inStore = location.pathname === '/';
-const inPurchases = location.pathname === '/purchases';
+const inPurchases = location.pathname.startsWith('/purchases');
 </script>
 
 <template>

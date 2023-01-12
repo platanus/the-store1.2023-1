@@ -1,5 +1,4 @@
 class Api::Internal::DeliveryCompanySerializer < BaseSerializer
-
   type :delivery_company
 
   attributes(
