@@ -67,19 +67,19 @@ function dateFormatter(date: Date, type = '/'): string {
       Empresa de despacho
     </h2>
     <div>
-      <p class="py-2 pl-8 text-xl font-medium">
+      <p class="pb-2 pt-3 pl-8 text-xl font-medium">
         {{ purchase.deliveryCompany.name }}
       </p>
-      <p class="py-2 pl-8 text-xl">
+      <p class="py-3 pl-8 text-xl">
         +{{ purchase.deliveryCompany.phoneNumber }}
       </p>
     </div>
   </section>
   <section class="flex flex-col items-center">
-    <p class="pb-4">
+    <p class="pb-4 text-xl">
       Tu orden está <span class="font-bold">programada</span> para el:
     </p>
-    <p class="pb-6 text-4xl font-bold">
+    <p class="pb-6 text-4xl font-medium">
       {{ dateFormatter(purchase.deliveryDate, 'text') }}
     </p>
     <div class="flex items-center">
@@ -94,25 +94,33 @@ function dateFormatter(date: Date, type = '/'): string {
     </div>
     <section class="w-full bg-zinc-50">
       <div class="flex flex-col items-center">
-        <p>
+        <p class="my-3">
           Dinos que día quieres que te entreguemos el producto
         </p>
-        <input
-          type="text"
-          class="h-10 w-48 rounded-2xl border border-zinc-300 px-4 py-2 placeholder:text-zinc-300"
-          placeholder="12/12/2022"
-        >
-        <div class="flex">
-          <button class="rounded-lg text-lg text-zinc-500">
-            <p class="mx-4 my-2 text-lg text-zinc-800">
-              Cancelar
-            </p>
-          </button>
-          <button class="rounded-lg bg-blue-800  text-lg">
-            <p class="mx-4 my-2 text-lg text-white">
-              Enviar
-            </p>
-          </button>
+        <div class="flex flex-col">
+          <div class="relative">
+            <input
+              type="text"
+              class="mb-3 w-80 rounded-lg border border-zinc-300 shadow-sm placeholder:text-zinc-300"
+              placeholder="12/12/2022"
+            >
+            <inline-svg
+              :src="require('/app/assets/images/calendar-icon.svg')"
+              class="absolute top-2 right-2 h-6 w-6 text-zinc-500"
+            />
+          </div>
+          <div class="flex pb-3">
+            <button class="grow rounded-lg text-lg text-zinc-500">
+              <p class="mx-4 my-2 text-lg font-bold text-zinc-800">
+                Cancelar
+              </p>
+            </button>
+            <button class="grow rounded-lg bg-blue-800  text-lg">
+              <p class="mx-4 my-2 text-lg font-bold text-white">
+                Enviar
+              </p>
+            </button>
+          </div>
         </div>
       </div>
     </section>
