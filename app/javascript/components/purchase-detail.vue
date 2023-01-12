@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { es } from 'date-fns/locale';
-import { parse, format } from 'date-fns';
-import { useNotification } from '@kyvg/vue3-notification';
-import purchasesApi, { type Purchase } from '../api/purchases';
+import type { Purchase } from '../api/purchases';
 
 type Props = {
   purchase: Purchase
 };
 defineProps<Props>();
+const showReschedule = ref(false);
 
 function dateFormatter(date: Date, type = '/'): string {
   if (type === '/') {
@@ -22,7 +21,10 @@ function dateFormatter(date: Date, type = '/'): string {
 
 </script>
 <template>
-  <section class="flex flex-col items-center">
+  <section
+    v-if="purchase.status === 'pending' && purchase.deliveryDate === null && purchase.deliveryCompany === null"
+    class="flex flex-col items-center"
+  >
     <h2 class="mb-4 text-4xl font-medium">
       Recibimos tu orden!
     </h2>
@@ -43,7 +45,6 @@ function dateFormatter(date: Date, type = '/'): string {
         >
       </div>
       <div class="flex grow flex-col divide-y divide-zinc-500">
-        <!--  -->
         <div class="flex grow items-center">
           <p class="pl-8 text-xl">
             {{ purchase.item.name }}
@@ -62,7 +63,10 @@ function dateFormatter(date: Date, type = '/'): string {
       </div>
     </div>
   </section>
-  <section class="flex flex-col divide-y divide-zinc-500 rounded-2xl border border-zinc-500 shadow-md">
+  <section
+    v-if="purchase.deliveryCompany"
+    class="flex flex-col divide-y divide-zinc-500 rounded-2xl border border-zinc-500 shadow-md"
+  >
     <h2 class="my-3 ml-8 text-2xl font-bold">
       Empresa de despacho
     </h2>
@@ -75,24 +79,36 @@ function dateFormatter(date: Date, type = '/'): string {
       </p>
     </div>
   </section>
-  <section class="flex flex-col items-center">
+  <section
+    v-if="purchase.deliveryDate && purchase.status === 'pending'"
+    class="flex flex-col items-center"
+  >
     <p class="pb-4 text-xl">
       Tu orden está <span class="font-bold">programada</span> para el:
     </p>
     <p class="pb-6 text-4xl font-medium">
       {{ dateFormatter(purchase.deliveryDate, 'text') }}
     </p>
-    <div class="flex items-center">
-      <p class="pr-4">
+    <div
+      v-show="!showReschedule"
+      class="flex items-center"
+    >
+      <p class="pr-4 text-lg">
         No puedes ese día?
       </p>
-      <button class="rounded-2xl border border-blue-800 text-lg">
+      <button
+        class="rounded-2xl border border-blue-800 text-lg"
+        @click="showReschedule = true"
+      >
         <p class="mx-4 my-2 font-medium text-blue-800">
           Quiero reagendar
         </p>
       </button>
     </div>
-    <section class="w-full bg-zinc-50">
+    <section
+      v-show="showReschedule"
+      class="w-full bg-zinc-50"
+    >
       <div class="flex flex-col items-center">
         <p class="my-3">
           Dinos que día quieres que te entreguemos el producto
@@ -110,7 +126,10 @@ function dateFormatter(date: Date, type = '/'): string {
             />
           </div>
           <div class="flex pb-3">
-            <button class="grow rounded-lg text-lg text-zinc-500">
+            <button
+              class="grow rounded-lg text-lg text-zinc-500"
+              @click="showReschedule = false"
+            >
               <p class="mx-4 my-2 text-lg font-bold text-zinc-800">
                 Cancelar
               </p>
