@@ -8,7 +8,6 @@ class Api::Internal::PurchaseSerializer < ActiveModel::Serializer
     :id,
     :status,
     :delivery_date,
-    :created_at,
-    :updated_at
+    :created_at
   )
 end

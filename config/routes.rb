@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/queue'
 
   scope module: :app, defaults: { format: :html } do
-    resources :purchases, only: [:index]
+    resources :purchases, only: [:index, :show]
     resources :items, only: [:show]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
