@@ -10,6 +10,7 @@ import UserSession from './components/user-session.vue';
 import ItemList from './components/item-list.vue';
 import ItemShowDetail from './components/item-show-detail.vue';
 import ItemShowReview from './components/item-show-review.vue';
+import PurchaseDetail from './components/purchase-detail.vue';
 import PurchaseList from './components/purchase-list.vue';
 import './css/application.css';
 
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ItemList,
       ItemShowDetail,
       ItemShowReview,
+      PurchaseDetail,
       PurchaseList,
       BaseNotifications,
     },

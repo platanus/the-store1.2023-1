@@ -3,11 +3,12 @@ class Api::Internal::PurchaseSerializer < ActiveModel::Serializer
 
   belongs_to :user
   belongs_to :item
+  belongs_to :delivery_company, optional: true
 
   attributes(
     :id,
     :status,
-    :created_at,
-    :updated_at
+    :delivery_date,
+    :created_at
   )
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   namespace :api, defaults: { format: :json } do
     namespace :internal do
-      resources :purchases, only: [:index, :create, :show]
+      resources :purchases, only: [:index, :create, :show, :update]
       resources :items, only: [:index, :show]
       resources :reviews, only: [:create]
     end
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/queue'
 
   scope module: :app, defaults: { format: :html } do
-    resources :purchases, only: [:index]
+    resources :purchases, only: [:index, :show]
     resources :items, only: [:show]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
